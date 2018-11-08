@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from . import models, serializers
 from rest_framework import status
 from nomadgram.notifications import views as notification_views
+from nomadgram.users import models as user_models
+from nomadgram.users import serializers as user_serializers
 
 # Create your views here.
 class Feed(APIView):
@@ -38,36 +40,51 @@ class Feed(APIView):
 
 class LikeImage(APIView):
 
-     def post(self, request, image_id, format=None):
+    def get(self, request, image_id, format=None):
+
+        likes = models.Like.objects.filter(image__id=image_id)
+
+        like_creators_ids = likes.values('creator_id')
+
+        users = user_models.User.objects.filter(id__in=like_creators_ids)
+
+        print("likes ====",likes)
+        print("like_creators_ids ====",like_creators_ids)
+
+        serializer = user_serializers.ListUserSerializer(users, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, image_id, format=None):
          
-         print("image_id :: ", image_id)
-         user = request.user
+        print("image_id :: ", image_id)
+        user = request.user
 
-         try:
-             found_image = models.Image.objects.get(id=image_id)
-         except models.Image.DoesNotExist:
-             return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            found_image = models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-         try:
-             preexisiting_like = models.Like.objects.get(
-                 creator=user,
-                 image=found_image
-             )
+        try:
+            preexisiting_like = models.Like.objects.get(
+                creator=user,
+                image=found_image
+            )
              
-             return Response(status=status.HTTP_304_NOT_MODIFIED)
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
 
-         except models.Like.DoesNotExist:
+        except models.Like.DoesNotExist:
 
-             new_like = models.Like.objects.create(
-                 creator=user,
-                 image=found_image
-             )
+            new_like = models.Like.objects.create(
+                creator=user,
+                image=found_image
+            )
 
-             new_like.save()
+            new_like.save()
 
-             notification_views.create_notification(user, found_image.creator, 'like', found_image)
+            notification_views.create_notification(user, found_image.creator, 'like', found_image)
 
-             return Response(status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_201_CREATED)
 
 class UnLikeImage(APIView):
 
