@@ -11,8 +11,12 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management    
     path(
-        "api-token-auth/",
-        obtain_jwt_token
+        "rest-auth/",
+        include('rest_auth.urls')
+    ),
+    path(
+        "rest-auth/registration/",
+        include('rest_auth.registration.urls')
     ),
     path(
         "users/",
