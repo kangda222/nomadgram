@@ -1,10 +1,13 @@
-import { combineReducers, createStore } from "redux";
-import users from "../redux/modules/users";
+import { combineReducers, createStore, applyMiddleware  } from "redux";
+import thunk from "redux-thunk";
+import users from "./modules/users";
 
- const reducer = combineReducers({
-   users
- });
+const middlewares = [thunk];
 
- let configureStore = initialState => createStore(reducer);
+const reducer = combineReducers({
+  users
+});
 
- export default configureStore;
+let store = initialState => createStore(reducer, applyMiddleware(...middlewares));
+
+export default store();;
