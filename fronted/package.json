@@ -13,6 +13,7 @@
     "react-scripts": "2.1.1",
     "reactotron-react-js": "^2.1.1",
     "redux": "^4.0.1",
+    "redux-i18n": "^1.5.14",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
