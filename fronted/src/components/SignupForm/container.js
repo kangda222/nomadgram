@@ -19,6 +19,7 @@ class Container extends Component{
             fullnameValue={fullname}
             usernameValue={username}
             passwordValue={password}
+            handleFacebookLogin = {this._handleFacebookLogin}
         />
         );
     }
@@ -33,7 +34,11 @@ class Container extends Component{
 
     _handleSubmit = event => {
         event.preventDefault();
-        //console.log("_handleSubmit this.state ::: ", this.state);
+        console.log("_handleSubmit this.state ::: ", this.state);
+    };
+
+    _handleFacebookLogin = response => {
+        console.log(response);
     };
 }
 

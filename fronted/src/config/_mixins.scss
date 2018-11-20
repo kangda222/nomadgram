@@ -51,13 +51,11 @@ $iphone6plus-width: 450px;
   background-color: $light-blue;
   color: white;
   font-weight: 600;
-  border: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: 0;  
   font-size: $normal-font-size;
   line-height: 26px;
   cursor: pointer;
+  width: 100%;
   &:focus,
   &:active {
     outline: none;

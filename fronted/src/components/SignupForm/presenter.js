@@ -1,18 +1,25 @@
 import React from "react";
 import Ionicon from "react-ionicons";
 import Proptypes from "prop-types";
+import FacebookLogin from 'react-facebook-login';
 import formStyles from "shared/formStyles.module.scss";
 
 const SignupForm = (props, context) => (
     <div className={formStyles.formComponent}>
         <h3 className={formStyles.signupHeader}>
-        Sign up to see photos and videos from your friends.
-        </h3>
-        <button className={formStyles.button}>
-        <Ionicon icon="logo-facebook" fontSize="20px" color="white" /> Log in with
-        Facebook
-        </button>
-        <span className={formStyles.divider}>or</span>
+        {context.t("Sign up to see photos and videos from your friends.")}
+        </h3>        
+        <FacebookLogin
+            appId="1158742204280157"
+            autoLoad={false}
+            fields="name,email,picture"            
+            callback={props.handleFacebookLogin}
+            cssClass={formStyles.facebookLink}
+            icon="fa-facebook-official"
+        >
+        <Ionicon icon="logo-facebook" fontSize="20px" color="white" /> {context.t("Log in with Facebook")}
+        </FacebookLogin>        
+        <span className={formStyles.divider}>{context.t("or")}</span>
         <form className={formStyles.form} onSubmit={props.handleSubmit}>
         <input 
             type="email" 
@@ -49,7 +56,7 @@ const SignupForm = (props, context) => (
         <input type="submit" value={context.t("Sign up")} className={formStyles.button} />
         </form>
         <p className={formStyles.terms}>
-        By signing up, you agree to our <span>Terms & Privacy Policy</span>.
+        {context.t("By signing up, you agree to our ")}<span>{context.t("Terms & Privacy Policy")}</span>.
         </p>
     </div>
 );
@@ -60,7 +67,8 @@ SignupForm.proptypes = {
     fullnameValue: Proptypes.string.isRequired,
     usernameValue: Proptypes.string.isRequired,
     passwordValue: Proptypes.string.isRequired,
-    handleSubmit: Proptypes.func.isRequired
+    handleSubmit: Proptypes.func.isRequired,
+    handleFacebookLogin: Proptypes.func.isRequired
 };
 
 SignupForm.contextTypes = {
