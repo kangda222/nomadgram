@@ -2,6 +2,7 @@
   "name": "fronted",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://localhost:8000",
   "dependencies": {
     "history": "^4.7.2",
     "node-sass": "^4.10.0",
