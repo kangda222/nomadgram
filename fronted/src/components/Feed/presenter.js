@@ -1,11 +1,22 @@
-//import React from "react";
+import React from "react";
 import PropTypes from "prop-types";
-//import styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
+import Loading from "components/Loading";
 
- const Feed = props => "Feed!";
+const Feed = props => {
+    if (props.loading) {
+      return <LoadingFeed />;
+    }
+};
 
- Feed.propTypes = {
+const LoadingFeed = props => (
+    <div className={styles.feed}>
+      <Loading />
+    </div>
+);
+
+Feed.propTypes = {
   loading: PropTypes.bool.isRequired
 };
 
- export default Feed;
+export default Feed;
