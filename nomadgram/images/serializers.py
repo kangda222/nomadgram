@@ -68,7 +68,7 @@ class ImageSerializer(serializers.ModelSerializer, TaggitSerializer):
             'like_counts',
             'creator',
             'tags',
-            'created_at',    
+            'natural_time',    
         )
 
 class InputImageSerializer(serializers.ModelSerializer):

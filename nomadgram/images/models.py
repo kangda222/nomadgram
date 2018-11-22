@@ -2,6 +2,7 @@ from django.db import models
 from nomadgram.users import models as user_models
 from django.utils.encoding import python_2_unicode_compatible
 from taggit.managers import TaggableManager
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 # Create your models here.
 @python_2_unicode_compatible
@@ -31,6 +32,10 @@ class Image(TimeStampedModel):
     @property
     def like_counts(self):
         return self.likes.all().count()
+
+    @property
+    def natural_time(self):
+        return naturaltime(self.created_at)
 
     def __str__(self):
         return '{} - {}'.format(self.location, self.caption)
