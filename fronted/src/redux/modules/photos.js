@@ -32,9 +32,7 @@ function getFeed() {
 }
 
 // Initial State
-const initialState = {
-    feed: []
-};
+const initialState = {};
 
 // Reducer
 function reducer(state = initialState, action) {
