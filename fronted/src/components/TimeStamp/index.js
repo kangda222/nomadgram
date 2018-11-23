@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const TimeStamp = (props, context) => props.time;
 
-TimeStamp.PropTypes={
+TimeStamp.propTypes={
     time: PropTypes.string.isRequired
 };
  

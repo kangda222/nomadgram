@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import PhotoActions from "components/PhotoActions";
 import PhotoComments from "components/PhotoComments";
 import TimeStamp from "components/TimeStamp";
+import CommentBox from "components/CommentBox";
 import styles from "./styles.module.scss";
 
 const FeedPhoto = (props, context) => {
@@ -28,6 +29,7 @@ const FeedPhoto = (props, context) => {
                 comments={props.comments}
             />
             <TimeStamp time={props.natural_time} />
+            <CommentBox/>
           </div>
         </div>
       );
