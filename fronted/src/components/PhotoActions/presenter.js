@@ -1,17 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Ionicon from "react-ionicons";
-//import styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 const PhotoActions = (props, context) => (
-    <div>
-        <div>
-        <span>
-            <Ionicon icon="ios-heart-outline" fontSize="28px" color="black" />
-        </span>
-        <span>
-            <Ionicon icon="ios-text-outline" fontSize="28px" color="black" />
-        </span>
+    <div className={styles.actions}>
+        <div className={styles.icons}>
+            <span className={styles.icon} onClick={props.handleHeartClick}>
+            {props.isLiked ? (
+                <Ionicon icon="ios-heart" fontSize="28px" color="#EB4B59" />
+            ) : (
+                <Ionicon icon="ios-heart-outline" fontSize="28px" color="black" />
+            )}
+            </span>
+            <span>
+                <Ionicon icon="ios-text-outline" fontSize="28px" color="black" />
+            </span>
         </div>
         <span>
         {props.number}{" "}
@@ -21,7 +25,10 @@ const PhotoActions = (props, context) => (
 );
 
 PhotoActions.propTypes = {
-  number: PropTypes.number.isRequired
+  number: PropTypes.number.isRequired,
+  isLiked: PropTypes.bool.isRequired,
+  photoId: PropTypes.number.isRequired,
+  handleHeartClick: PropTypes.func.isRequired
 };
 
 PhotoActions.contextTypes = {

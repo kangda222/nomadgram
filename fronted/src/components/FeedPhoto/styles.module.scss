@@ -1,6 +1,6 @@
 @import "../../config/_variables";
 
-.feed-photo {
+.feedPhoto {
     @include boxBorder(yes);
     width: 100%;
     max-width: $max-card-width;
