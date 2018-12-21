@@ -5,6 +5,7 @@ import { actionCreators as userActions } from "redux/modules/user";
 const SET_FEED = "SET_FEED";
 const LIKE_PHOTO = "LIKE_PHOTO";
 const UNLIKE_PHOTO = "UNLIKE_PHOTO";
+const ADD_COMMENT = "ADD_COMMENT";
 
 // action creators
 function setFeed(feed) {
@@ -25,6 +26,14 @@ function doUnlikePhoto(photoId) {
     return {
       type: UNLIKE_PHOTO,
       photoId
+    };
+}
+
+function addComment(photoId, comment) {
+    return {
+      type: ADD_COMMENT,
+      photoId,
+      comment
     };
 }
 
@@ -51,7 +60,7 @@ function likePhoto(photoId) {
     return (dispatch, getState) => {
         dispatch(doLikePhoto(photoId));
         const { user: { token } } = getState();
-        fetch(`/images/${photoId}/likes/`, {
+        fetch(`/images/${photoId}/likes`, {
             method: "POST",
             headers: {
                 Authorization: `JWT ${token}`
@@ -70,7 +79,7 @@ function unlikePhoto(photoId) {
     return (dispatch, getState) => {
         dispatch(doUnlikePhoto(photoId));
         const { user: { token } } = getState();
-        fetch(`/images/${photoId}/unlikes/`, {
+        fetch(`/images/${photoId}/unlikes`, {
             method: "DELETE",
             headers: {
                 Authorization: `JWT ${token}`
@@ -89,7 +98,7 @@ function commentPhoto(photoId, message) {
     return (dispatch, getState) => {
         const { user: { token } } = getState();
         console.log(`JWT :: ${token} ////////// photoId :: ${photoId} ///////// message :: ${message}`);
-        fetch(`/images/${photoId}/comments/`, {
+        fetch(`/images/${photoId}/comments`, {
             method: "POST",
             headers: {
             Authorization: `JWT ${token}`,
@@ -102,6 +111,11 @@ function commentPhoto(photoId, message) {
             console.log(`response.status :: ${response.status}`);         
             if (response.status === 401) {
             dispatch(userActions.logout());
+            }
+            return response.json()
+        }).then(json => {
+            if (json.message) {
+              dispatch(addComment(photoId, json));
             }
         });
     };
@@ -119,7 +133,9 @@ function reducer(state = initialState, action) {
         case LIKE_PHOTO:
             return applyLikePhoto(state, action);
         case UNLIKE_PHOTO:
-            return applyUnlikePhoto(state, action);    
+            return applyUnlikePhoto(state, action);
+        case ADD_COMMENT:
+            return applyAddComment(state, action);    
         default:
             return state;
     }
@@ -152,6 +168,21 @@ function applyUnlikePhoto(state, action) {
     const updatedFeed = feed.map(photo => {
       if (photo.id === photoId) {
         return { ...photo, is_liked: false, like_counts: photo.like_counts - 1 };
+      }
+      return photo;
+    });
+    return { ...state, feed: updatedFeed };
+}
+
+function applyAddComment(state, action) {
+    const { photoId, comment } = action;
+    const { feed } = state;
+    const updatedFeed = feed.map(photo => {
+      if (photo.id === photoId) {
+        return {
+          ...photo,
+          comments: [...photo.comments, comment]
+        };
       }
       return photo;
     });
