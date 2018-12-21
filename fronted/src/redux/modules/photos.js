@@ -49,13 +49,39 @@ function getFeed() {
 
 function likePhoto(photoId) {
     return (dispatch, getState) => {
-        dispatch(doLikePhoto(photoId));        
+        dispatch(doLikePhoto(photoId));
+        const { user: { token } } = getState();
+        fetch(`/images/${photoId}/likes/`, {
+            method: "POST",
+            headers: {
+                Authorization: `JWT ${token}`
+            }
+        }).then(response => {
+        if (response.status === 401) {
+            dispatch(userActions.logout());
+        } else if (!response.ok) {
+            dispatch(doUnlikePhoto(photoId));
+        }
+        });       
     }
 }
 
 function unlikePhoto(photoId) {
     return (dispatch, getState) => {
-        dispatch(doUnlikePhoto(photoId));        
+        dispatch(doUnlikePhoto(photoId));
+        const { user: { token } } = getState();
+        fetch(`/images/${photoId}/unlikes/`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `JWT ${token}`
+            }
+        }).then(response => {
+        if (response.status === 401) {
+            dispatch(userActions.logout());
+        } else if (!response.ok) {
+            dispatch(doLikePhoto(photoId));
+        }
+        });      
     }
 }
 
@@ -66,7 +92,8 @@ function commentPhoto(photoId, message) {
         fetch(`/images/${photoId}/comments/`, {
             method: "POST",
             headers: {
-            Authorization: `JWT ${token}`
+            Authorization: `JWT ${token}`,
+            "Content-Type": "application/json"
             },
             body: JSON.stringify({
             message
