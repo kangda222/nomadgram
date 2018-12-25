@@ -3,6 +3,7 @@
 // actions
 const SAVE_TOKEN = "SAVE_TOKEN";
 const LOGOUT = "LOGOUT";
+const SET_PHOTO_LIKES = "SET_PHOTO_LIKES";
 
 // action creators
 function saveToken(token) {
@@ -15,6 +16,14 @@ function saveToken(token) {
 function logout() {
   return {
     type: LOGOUT
+  };
+}
+
+function setPhotoLikes(photoId, likes) {
+  return {
+    type: SET_PHOTO_LIKES,
+    photoId,
+    likes
   };
 }
 
@@ -87,6 +96,27 @@ function createAccount(username, password, email) {
   };
 }
 
+function getPhotoLikes(photoId) {
+  return (dispatch, getState) => {
+    const { user: { token } } = getState();
+    fetch(`/images/${photoId}/likes`, {
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setPhotoLikes(photoId, json));
+      });
+  };
+}
+
+
 // initial state
 
 const initialState = {
@@ -102,6 +132,8 @@ function reducer(state = initialState, action) {
       return applySetToken(state, action);
     case LOGOUT:
       return applyLogout(state, action);
+    case SET_PHOTO_LIKES:
+      return applySetUseList(state, action);
     default:
       return state;
   }
@@ -125,6 +157,11 @@ function applyLogout(state, action) {
     isLoggedIn: false
   };
 }
+
+function applySetUseList(state, action) {
+  const { userList } = action;  
+  return { ...state, userList };
+}
  
 // exports
 
@@ -132,7 +169,8 @@ const actionCreators = {
   facebookLogin,
   usernameLogin,
   createAccount,
-  logout
+  logout,
+  getPhotoLikes
 };
 
 export { actionCreators };
