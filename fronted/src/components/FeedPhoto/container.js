@@ -18,12 +18,14 @@ class Container extends Component {
       );
     }
     _openLikes = () => {
+        console.log("111111111111111111111"+JSON.stringify(this.props))
       const { getPhotoLikes } = this.props;
       this.setState({
         seeingLikes: true
       });
-      getPhotoLikes();  
-    };
+      getPhotoLikes();
+      console.log("222222222222222222222"+JSON.stringify(this.state))
+    };    
     _closeLikes = () => {
       this.setState({
         seeingLikes: false

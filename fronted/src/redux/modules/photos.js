@@ -112,7 +112,7 @@ function commentPhoto(photoId, message) {
             if (response.status === 401) {
             dispatch(userActions.logout());
             }
-            return response.json()
+            return response.json
         }).then(json => {
             if (json.message) {
               dispatch(addComment(photoId, json));
