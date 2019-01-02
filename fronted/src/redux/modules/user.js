@@ -135,6 +135,19 @@ function followUser(userId) {
   return (dispatch, getState) => {
     const { user: { token } } = getState();    
     dispatch(setFollowUser(userId));
+    fetch(`/users/${userId}/follow`, {
+      method: "POST",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(logout());
+      } else if (!response.ok) {
+        dispatch(setUnfollowUser(userId));
+      }
+    });
   };
 }
 
@@ -142,6 +155,19 @@ function unfollowUser(userId) {
   return (dispatch, getState) => {
     const { user: { token } } = getState();    
     dispatch(setUnfollowUser(userId));
+    fetch(`/users/${userId}/unfollow`, {
+      method: "POST",
+      headers: {
+        Authorization: `JWT ${token}`,
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(logout());
+      } else if (!response.ok) {
+        dispatch(setFollowUser(userId));
+      }
+    });
   };
 }
 
