@@ -171,6 +171,23 @@ function unfollowUser(userId) {
   };
 }
 
+function getExplore(){
+  return (dispatch, getState) => {
+    const { user: { token } } = getState();        
+    fetch(`/users/explore`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`        
+      }
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(logout());
+      }
+      return response.json()
+    }).then(json => dispatch(setUserList(json)))
+  };
+}
+
 // initial state
 
 const initialState = {
@@ -260,7 +277,8 @@ const actionCreators = {
   getPhotoLikes,
   logout,
   followUser,
-  unfollowUser
+  unfollowUser,
+  getExplore
 };
 
 export { actionCreators };
