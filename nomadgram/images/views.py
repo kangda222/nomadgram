@@ -67,7 +67,8 @@ class LikeImage(APIView):
         print("likes ====",likes)
         print("like_creators_ids ====",like_creators_ids)
 
-        serializer = user_serializers.ListUserSerializer(users, many=True)
+        serializer = user_serializers.ListUserSerializer(users, many=True, context={'request': request})
+        print("serializer.data ====",serializer.data)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

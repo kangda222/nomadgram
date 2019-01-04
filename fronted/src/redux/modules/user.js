@@ -290,6 +290,7 @@ function applyLogout(state, action) {
 
 function applySetUserList(state, action){
   const{userList} = action;
+  console.log(`==============userReducer UserList===${JSON.stringify(userList)}`)
   return {
       ...state,
       userList
