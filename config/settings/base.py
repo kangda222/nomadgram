@@ -72,7 +72,7 @@ THIRD_PARTY_APPS = [
     'taggit_serializer', #transform tag to JSON
     'rest_auth',  # rest auth
     'rest_auth.registration',  # enable registration
-    #'corsheaders',  # To accept requests from React
+    'corsheaders',  # To accept requests from React
 ]
 LOCAL_APPS = [
     'nomadgram.users.apps.UsersAppConfig',
@@ -133,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -256,7 +256,7 @@ REST_FRAMEWORK = {
 
 REST_USE_JWT = True
 ACCOUNT_LOGOUT_ON_GET = True
-#CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False
