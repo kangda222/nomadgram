@@ -262,3 +262,7 @@ CORS_ALLOW_CREDENTIALS = True #cookies will be allowed to be included in cross-s
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False
 }
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'nomadgram.users.serializers.UserProfileSerializer'
+}
