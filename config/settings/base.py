@@ -256,7 +256,8 @@ REST_FRAMEWORK = {
 
 REST_USE_JWT = True
 ACCOUNT_LOGOUT_ON_GET = True
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True #all origins will be accepted
+CORS_ALLOW_CREDENTIALS = True #cookies will be allowed to be included in cross-site HTTP requests.
 
 JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False
