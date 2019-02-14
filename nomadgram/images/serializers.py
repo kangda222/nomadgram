@@ -30,7 +30,13 @@ class FeedUserSerializer(serializers.ModelSerializer):
         model = user_models.User 
         fields = (
             'username',
-            'profile_image'         
+            'profile_image',
+            'name',
+            'bio',
+            'website',
+            'post_count',
+            'followers_count',
+            'following_count',      
         )
 
 class CommentSerializer(serializers.ModelSerializer):   
